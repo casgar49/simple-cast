@@ -2,15 +2,15 @@ package com.dupontgu.simplecast
 
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.cast.MediaInfo
 import com.google.android.gms.cast.MediaLoadOptions
 import com.google.android.gms.cast.MediaMetadata
 import com.google.android.gms.cast.framework.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 internal const val TAG = "MAIN"
 internal const val STREAM_ADDRESS_KEY = "streamAddressKey"
@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var castSessionManager: SessionManager
     private val sessionManagerListener: SessionManagerListener<Session> by lazy { SessionManagerListenerImpl() }
 
+    val streamLocationField: EditText by lazy { findViewById(R.id.streamLocationField) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 .setContentType("audio/aac")
                 .setMetadata(audioMetadata)
                 .build()
-        castSession.remoteMediaClient.load(mediaInfo, MediaLoadOptions.Builder().build())
+        castSession.remoteMediaClient?.load(mediaInfo, MediaLoadOptions.Builder().build())
     }
 
     private fun saveStreamAddress(address: String) {
